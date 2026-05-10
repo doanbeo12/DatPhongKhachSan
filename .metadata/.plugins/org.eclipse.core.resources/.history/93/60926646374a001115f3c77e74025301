@@ -1,0 +1,89 @@
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
+public class DatPhong {
+
+    private String maDatPhong;
+    private KhachHang khachHang;
+    private Phong phong;
+    private LocalDate ngayNhan;
+    private LocalDate ngayTra;
+    private List<DichVu> danhSachDichVu;
+
+    public DatPhong(String maDatPhong,
+                     KhachHang khachHang,
+                     Phong phong,
+                     LocalDate ngayNhan,
+                     LocalDate ngayTra) {
+
+        this.maDatPhong = maDatPhong;
+        this.khachHang = khachHang;
+        this.phong = phong;
+        this.ngayNhan = ngayNhan;
+        this.ngayTra = ngayTra;
+
+        this.danhSachDichVu = new ArrayList<>();
+    }
+
+    public String getMaDatPhong() {
+        return maDatPhong;
+    }
+
+    public KhachHang getKhachHang() {
+        return khachHang;
+    }
+
+    public Phong getPhong() {
+        return phong;
+    }
+
+    public LocalDate getNgayNhan() {
+        return ngayNhan;
+    }
+
+    public LocalDate getNgayTra() {
+        return ngayTra;
+    }
+
+    public List<DichVu> getDanhSachDichVu() {
+        return danhSachDichVu;
+    }
+
+    // Setter
+    public void setKhachHang(KhachHang khachHang) {
+        this.khachHang = khachHang;
+    }
+
+    public void setPhong(Phong phong) {
+        this.phong = phong;
+    }
+
+    public void setNgayNhan(LocalDate ngayNhan) {
+        this.ngayNhan = ngayNhan;
+    }
+
+    public void setNgayTra(LocalDate ngayTra) {
+        this.ngayTra = ngayTra;
+    }
+
+    // Thêm dịch vụ
+    public void themDichVu(DichVu dv) {
+        danhSachDichVu.add(dv);
+    }
+    
+
+    // Tính tổng tiền
+    public double tinhTongTien() {
+
+        long soNgay = ngayNhan.until(ngayTra).getDays();
+
+        double tong = soNgay * phong.getGiaPhong();
+
+        for (DichVu dv : danhSachDichVu) {
+            tong += dv.getGia();
+        }
+
+        return tong;
+    }
+}

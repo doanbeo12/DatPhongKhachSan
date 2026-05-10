@@ -1,0 +1,46 @@
+package hotel;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+
+public class PhongDAO {
+
+    public boolean themPhong(Phong p) {
+
+        String sql =
+                "INSERT INTO phong VALUES (?, ?, ?, ?, ?, ?)";
+
+        try (
+
+                Connection conn =
+                        DBConnection.getConnection();
+
+                PreparedStatement stmt =
+                        conn.prepareStatement(sql)
+
+        ) {
+
+            stmt.setString(1, p.getMaPhong());
+
+            stmt.setString(2, p.getTenPhong());
+
+            stmt.setString(3, p.getLoaiPhong());
+
+            stmt.setDouble(4, p.getGia());
+
+            stmt.setString(5, p.getTrangThai());
+
+            stmt.setString(6, p.getMoTa());
+
+            stmt.executeUpdate();
+
+            return true;
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+}

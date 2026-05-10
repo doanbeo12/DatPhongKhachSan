@@ -1,0 +1,379 @@
+package hotel;
+
+import javax.swing.*;
+import java.awt.*;
+
+public class ThemPhongFrame extends JFrame {
+
+    private JTextField txtMaPhong;
+
+    private JTextField txtTenPhong;
+
+    private JTextField txtLoaiPhong;
+
+    private JTextField txtGiaPhong;
+
+    private JTextArea txtMoTa;
+
+    private JCheckBox chkTrangThai;
+
+    private JButton btnThem;
+    private DanhSachPhongFrame parent;
+
+    public ThemPhongFrame(
+            DanhSachPhongFrame parent
+    ) {
+    	this.parent = parent;
+
+        setTitle("Thêm phòng");
+
+        setSize(500, 650);
+
+        setLocationRelativeTo(null);
+
+        setDefaultCloseOperation(
+                JFrame.DISPOSE_ON_CLOSE
+        );
+
+        setLayout(null);
+
+        getContentPane().setBackground(
+                new Color(15, 23, 42)
+        );
+
+        // =========================
+        // TITLE
+        // =========================
+        JLabel lblTitle =
+                new JLabel(
+                        "THÊM PHÒNG",
+                        SwingConstants.CENTER
+                );
+
+        lblTitle.setFont(
+                new Font(
+                        "Segoe UI",
+                        Font.BOLD,
+                        28
+                )
+        );
+
+        lblTitle.setForeground(Color.WHITE);
+
+        lblTitle.setBounds(
+                100,
+                20,
+                300,
+                40
+        );
+
+        add(lblTitle);
+
+        Font labelFont =
+                new Font(
+                        "Segoe UI",
+                        Font.PLAIN,
+                        16
+                );
+
+        Font inputFont =
+                new Font(
+                        "Segoe UI",
+                        Font.PLAIN,
+                        15
+                );
+
+        // =========================
+        // MÃ PHÒNG
+        // =========================
+        JLabel lblMaPhong =
+                new JLabel("Mã phòng");
+
+        lblMaPhong.setForeground(Color.WHITE);
+
+        lblMaPhong.setFont(labelFont);
+
+        lblMaPhong.setBounds(
+                40,
+                100,
+                120,
+                30
+        );
+
+        add(lblMaPhong);
+
+        txtMaPhong =
+                new JTextField();
+
+        txtMaPhong.setBounds(
+                180,
+                100,
+                250,
+                35
+        );
+
+        txtMaPhong.setFont(inputFont);
+
+        add(txtMaPhong);
+
+        // =========================
+        // TÊN PHÒNG
+        // =========================
+        JLabel lblTenPhong =
+                new JLabel("Tên phòng");
+
+        lblTenPhong.setForeground(Color.WHITE);
+
+        lblTenPhong.setFont(labelFont);
+
+        lblTenPhong.setBounds(
+                40,
+                155,
+                120,
+                30
+        );
+
+        add(lblTenPhong);
+
+        txtTenPhong =
+                new JTextField();
+
+        txtTenPhong.setBounds(
+                180,
+                155,
+                250,
+                35
+        );
+
+        txtTenPhong.setFont(inputFont);
+
+        add(txtTenPhong);
+
+        // =========================
+        // LOẠI PHÒNG
+        // =========================
+        JLabel lblLoaiPhong =
+                new JLabel("Loại phòng");
+
+        lblLoaiPhong.setForeground(Color.WHITE);
+
+        lblLoaiPhong.setFont(labelFont);
+
+        lblLoaiPhong.setBounds(
+                40,
+                210,
+                120,
+                30
+        );
+
+        add(lblLoaiPhong);
+
+        txtLoaiPhong =
+                new JTextField();
+
+        txtLoaiPhong.setBounds(
+                180,
+                210,
+                250,
+                35
+        );
+
+        txtLoaiPhong.setFont(inputFont);
+
+        add(txtLoaiPhong);
+
+        // =========================
+        // GIÁ PHÒNG
+        // =========================
+        JLabel lblGiaPhong =
+                new JLabel("Giá phòng");
+
+        lblGiaPhong.setForeground(Color.WHITE);
+
+        lblGiaPhong.setFont(labelFont);
+
+        lblGiaPhong.setBounds(
+                40,
+                265,
+                120,
+                30
+        );
+
+        add(lblGiaPhong);
+
+        txtGiaPhong =
+                new JTextField();
+
+        txtGiaPhong.setBounds(
+                180,
+                265,
+                250,
+                35
+        );
+
+        txtGiaPhong.setFont(inputFont);
+
+        add(txtGiaPhong);
+
+        // =========================
+        // MÔ TẢ
+        // =========================
+        JLabel lblMoTa =
+                new JLabel("Mô tả");
+
+        lblMoTa.setForeground(Color.WHITE);
+
+        lblMoTa.setFont(labelFont);
+
+        lblMoTa.setBounds(
+                40,
+                320,
+                120,
+                30
+        );
+
+        add(lblMoTa);
+
+        txtMoTa =
+                new JTextArea();
+
+        txtMoTa.setFont(inputFont);
+
+        JScrollPane scrollMoTa =
+                new JScrollPane(txtMoTa);
+
+        scrollMoTa.setBounds(
+                180,
+                320,
+                250,
+                90
+        );
+
+        add(scrollMoTa);
+
+        // =========================
+        // TRẠNG THÁI
+        // =========================
+        chkTrangThai =
+                new JCheckBox("Đã sử dụng");
+
+        chkTrangThai.setForeground(Color.WHITE);
+
+        chkTrangThai.setBackground(
+                new Color(15, 23, 42)
+        );
+
+        chkTrangThai.setFont(labelFont);
+
+        chkTrangThai.setBounds(
+                180,
+                430,
+                150,
+                30
+        );
+
+        add(chkTrangThai);
+
+        // =========================
+        // BUTTON
+        // =========================
+        btnThem =
+                new JButton("Thêm phòng");
+
+        btnThem.setBounds(
+                140,
+                500,
+                200,
+                45
+        );
+
+        btnThem.setFont(
+                new Font(
+                        "Segoe UI",
+                        Font.BOLD,
+                        16
+                )
+        );
+
+        btnThem.setBackground(
+                new Color(37, 99, 235)
+        );
+
+        btnThem.setForeground(Color.WHITE);
+
+        btnThem.setFocusPainted(false);
+
+        add(btnThem);
+
+        // =========================
+        // EVENT
+        // =========================
+        btnThem.addActionListener(e -> {
+
+            try {
+
+                String maPhong =
+                        txtMaPhong.getText();
+
+                String tenPhong =
+                        txtTenPhong.getText();
+
+                String loaiPhong =
+                        txtLoaiPhong.getText();
+
+                double giaPhong =
+                        Double.parseDouble(
+                                txtGiaPhong.getText()
+                        );
+
+                String moTa =
+                        txtMoTa.getText();
+
+                boolean trangThai =
+                        chkTrangThai.isSelected();
+
+                Phong phong =
+                        new Phong(
+                                maPhong,
+                                tenPhong,
+                                loaiPhong,
+                                giaPhong,
+                                trangThai,
+                                moTa
+                        );
+
+                PhongDAO dao =
+                        new PhongDAO();
+
+                boolean success =
+                        dao.themPhong(phong);
+
+                if (success) {
+
+                    JOptionPane.showMessageDialog(
+                            this,
+                            "Thêm phòng thành công"
+                    );
+
+                    parent.loadPhong();
+
+                    dispose();;
+
+                } else {
+
+                    JOptionPane.showMessageDialog(
+                            this,
+                            "Mã phòng đã tồn tại"
+                    );
+                }
+
+            } catch (Exception ex) {
+
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Dữ liệu không hợp lệ"
+                );
+            }
+        });
+    }
+}

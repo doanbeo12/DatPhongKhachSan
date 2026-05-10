@@ -1,0 +1,103 @@
+import java.util.ArrayList;
+import java.util.List;
+
+public class PhongService {
+
+    private List<Phong> danhSachPhong = new ArrayList<>();
+
+    // Thêm phòng
+    public void themPhong(Phong p) {
+
+        for (Phong phong : danhSachPhong) {
+
+            if (phong.getMaPhong().equals(p.getMaPhong())) {
+                System.out.println("Mã phòng đã tồn tại!");
+                return;
+            }
+        }
+
+        danhSachPhong.add(p);
+        System.out.println("Thêm phòng thành công!");
+    }
+
+    // Sửa phòng
+    public void suaPhong(String maPhong, Phong pMoi) {
+
+        for (Phong phong : danhSachPhong) {
+
+            if (phong.getMaPhong().equals(maPhong)) {
+
+                phong.setLoaiPhong(pMoi.getLoaiPhong());
+                phong.setGiaPhong(pMoi.getGiaPhong());
+                phong.setTrangThai(pMoi.isTrangThai());
+
+                System.out.println("Sửa phòng thành công!");
+                return;
+            }
+        }
+
+        System.out.println("Không tìm thấy phòng!");
+    }
+
+    // Xóa phòng
+    public void xoaPhong(String maPhong) {
+
+        Phong canXoa = null;
+
+        for (Phong phong : danhSachPhong) {
+
+            if (phong.getMaPhong().equals(maPhong)) {
+                canXoa = phong;
+                break;
+            }
+        }
+
+        if (canXoa != null) {
+
+            danhSachPhong.remove(canXoa);
+            System.out.println("Xóa phòng thành công!");
+
+        } else {
+            System.out.println("Không tìm thấy phòng!");
+        }
+    }
+
+    // Tìm phòng
+    public List<Phong> timPhong(String tuKhoa) {
+
+        List<Phong> ketQua = new ArrayList<>();
+
+        for (Phong phong : danhSachPhong) {
+
+            if (phong.getMaPhong().contains(tuKhoa)
+                    || phong.getLoaiPhong().contains(tuKhoa)) {
+
+                ketQua.add(phong);
+            }
+        }
+
+        return ketQua;
+    }
+
+    // Hiển thị danh sách phòng
+    public void hienThiDanhSachPhong() {
+
+        for (Phong phong : danhSachPhong) {
+
+            System.out.println(
+                    phong.getMaPhong()
+                    + " | "
+                    + phong.getLoaiPhong()
+                    + " | "
+                    + phong.getGiaPhong()
+                    + " | "
+                    + (phong.isTrangThai() ? "Đã thuê" : "Trống")
+            );
+        }
+    }
+
+    // Getter danh sách
+    public List<Phong> getDanhSachPhong() {
+        return danhSachPhong;
+    }
+}

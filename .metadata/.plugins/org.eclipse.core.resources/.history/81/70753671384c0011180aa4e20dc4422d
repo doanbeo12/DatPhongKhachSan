@@ -1,0 +1,367 @@
+package hotel;
+
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import java.awt.*;
+
+public class HomeFrame extends JFrame {
+
+    private TaiKhoan taiKhoan;
+
+    public HomeFrame(TaiKhoan taiKhoan) {
+
+        this.taiKhoan = taiKhoan;
+
+        setTitle("Hotel Management");
+
+        setSize(900, 600);
+
+        setLocationRelativeTo(null);
+
+        setDefaultCloseOperation(
+                JFrame.EXIT_ON_CLOSE
+        );
+
+        setLayout(new BorderLayout());
+
+        // =========================
+        // MAIN PANEL
+        // =========================
+        JPanel mainPanel = new JPanel();
+
+        // NAVY BLUE BACKGROUND
+        mainPanel.setBackground(
+                new Color(30, 41, 59)
+        );
+
+        mainPanel.setBorder(
+                new EmptyBorder(
+                        30,
+                        30,
+                        30,
+                        30
+                )
+        );
+
+        mainPanel.setLayout(null);
+
+        // =========================
+        // HELLO USER
+        // =========================
+        JLabel lblHello =
+                new JLabel(
+                        "Xin chào, "
+                        + taiKhoan.getTenDangNhap()
+                );
+
+        lblHello.setFont(
+                new Font(
+                        "Segoe UI",
+                        Font.BOLD,
+                        28
+                )
+        );
+
+        lblHello.setForeground(
+                Color.WHITE
+        );
+
+        lblHello.setBounds(
+                20,
+                20,
+                500,
+                40
+        );
+
+        mainPanel.add(lblHello);
+        JButton btnDangXuat =
+                new JButton("Đăng xuất");
+
+        btnDangXuat.setFont(
+                new Font(
+                        "Segoe UI",
+                        Font.BOLD,
+                        14
+                )
+        );
+
+        btnDangXuat.setBackground(
+                new Color(220, 38, 38)
+        );
+
+        btnDangXuat.setForeground(
+                Color.WHITE
+        );
+
+        btnDangXuat.setFocusPainted(false);
+
+        btnDangXuat.setBounds(
+                700,
+                20,
+                140,
+                40
+        );
+
+        mainPanel.add(btnDangXuat);
+        btnDangXuat.addActionListener(e -> {
+
+            int confirm =
+                    JOptionPane.showConfirmDialog(
+
+                            this,
+
+                            "Bạn có muốn đăng xuất?",
+
+                            "Đăng xuất",
+
+                            JOptionPane.YES_NO_OPTION
+                    );
+
+            if (
+                    confirm ==
+                    JOptionPane.YES_OPTION
+            ) {
+
+                new LoginFrame()
+                        .setVisible(true);
+
+                dispose();
+            }
+        });
+
+        // =========================
+        // SEARCH BAR
+        // =========================
+        JTextField txtSearch =
+                new JTextField();
+
+        txtSearch.setFont(
+                new Font(
+                        "Segoe UI",
+                        Font.PLAIN,
+                        16
+                )
+        );
+
+        txtSearch.setBounds(
+                20,
+                90,
+                820,
+                45
+        );
+
+        txtSearch.setText(
+                "Tìm kiếm..."
+        );
+
+        txtSearch.setBackground(
+                new Color(15, 23, 42)
+        );
+
+        txtSearch.setForeground(
+                Color.WHITE
+        );
+
+        txtSearch.setCaretColor(
+                Color.WHITE
+        );
+
+        txtSearch.setBorder(
+                BorderFactory.createCompoundBorder(
+                        BorderFactory.createLineBorder(
+                                new Color(70, 85, 110)
+                        ),
+                        new EmptyBorder(
+                                5,
+                                10,
+                                5,
+                                10
+                        )
+                )
+        );
+
+        mainPanel.add(txtSearch);
+
+        // =========================
+        // FEATURE PANEL
+        // =========================
+        JPanel featurePanel =
+                new JPanel();
+
+        featurePanel.setBackground(
+                new Color(15, 23, 42)
+        );
+
+        featurePanel.setBounds(
+                20,
+                180,
+                820,
+                220
+        );
+
+        featurePanel.setLayout(
+                new GridLayout(
+                        1,
+                        3,
+                        20,
+                        20
+                )
+        );
+
+        // =========================
+        // ĐẶT PHÒNG
+        // =========================
+        JButton btnDatPhong =
+                createButton(
+                        "Đặt phòng"
+                );
+        btnDatPhong.addActionListener(e -> {
+
+            new DanhSachPhongFrame(taiKhoan)
+                    .setVisible(true);
+        });
+
+        // =========================
+        // DỊCH VỤ
+        // =========================
+        JButton btnDichVu =
+                createButton(
+                        "Dịch vụ khác"
+                );
+
+        // =========================
+        // TRA CỨU
+        // =========================
+        JButton btnTraCuu =
+                createButton(
+                        "Tra cứu"
+                );
+
+        featurePanel.add(btnDatPhong);
+
+        featurePanel.add(btnDichVu);
+
+        featurePanel.add(btnTraCuu);
+
+        mainPanel.add(featurePanel);
+
+        // =========================
+        // NAVIGATION BAR
+        // =========================
+        JPanel navPanel =
+                new JPanel();
+
+        navPanel.setBackground(
+                new Color(15, 23, 42)
+        );
+
+        navPanel.setPreferredSize(
+                new Dimension(900, 70)
+        );
+
+        navPanel.setLayout(
+                new GridLayout(
+                        1,
+                        3
+                )
+        );
+
+        JButton btnHome =
+                createNavButton(
+                        "Trang chủ"
+                );
+
+        JButton btnPhong =
+                createNavButton(
+                        "Phòng"
+                );
+
+        JButton btnProfile =
+                createNavButton(
+                        "Thông tin cá nhân"
+                );
+
+        navPanel.add(btnHome);
+
+        navPanel.add(btnPhong);
+
+        navPanel.add(btnProfile);
+
+        // =========================
+        // ADD COMPONENT
+        // =========================
+        add(mainPanel, BorderLayout.CENTER);
+
+        add(navPanel, BorderLayout.SOUTH);
+    }
+
+    // =========================
+    // CUSTOM BUTTON
+    // =========================
+    private JButton createButton(
+            String text
+    ) {
+
+        JButton button =
+                new JButton(text);
+
+        button.setFont(
+                new Font(
+                        "Segoe UI",
+                        Font.BOLD,
+                        20
+                )
+        );
+
+        button.setBackground(
+                new Color(51, 65, 85)
+        );
+
+        button.setForeground(
+                Color.WHITE
+        );
+
+        button.setFocusPainted(false);
+
+        button.setBorder(
+                BorderFactory.createLineBorder(
+                        new Color(70, 85, 110)
+                )
+        );
+
+        return button;
+    }
+
+    // =========================
+    // NAV BUTTON
+    // =========================
+    private JButton createNavButton(
+            String text
+    ) {
+
+        JButton button =
+                new JButton(text);
+
+        button.setFont(
+                new Font(
+                        "Segoe UI",
+                        Font.PLAIN,
+                        16
+                )
+        );
+
+        button.setBackground(
+                new Color(15, 23, 42)
+        );
+
+        button.setForeground(
+                Color.WHITE
+        );
+
+        button.setFocusPainted(false);
+
+        button.setBorder(null);
+
+        return button;
+    }
+}

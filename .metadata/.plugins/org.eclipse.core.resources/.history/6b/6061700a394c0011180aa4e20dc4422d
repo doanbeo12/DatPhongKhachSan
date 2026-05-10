@@ -1,0 +1,308 @@
+package hotel;
+
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import java.awt.*;
+
+public class HomeFrame extends JFrame {
+
+    public HomeFrame(String username) {
+
+        setTitle("Hotel Management");
+
+        setSize(450, 800); // giao diện dọc
+
+        setLocationRelativeTo(null);
+
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        setResizable(false);
+
+        setLayout(new BorderLayout());
+
+        // =========================
+        // MAIN PANEL
+        // =========================
+        JPanel mainPanel = new JPanel();
+
+        mainPanel.setBackground(new Color(245, 247, 250));
+
+        mainPanel.setLayout(null);
+
+        // =========================
+        // HEADER
+        // =========================
+        JLabel lblHello =
+                new JLabel("Xin chào,");
+
+        lblHello.setFont(
+                new Font(
+                        "Segoe UI",
+                        Font.PLAIN,
+                        24
+                )
+        );
+
+        lblHello.setBounds(
+                30,
+                40,
+                200,
+                30
+        );
+
+        mainPanel.add(lblHello);
+
+        JLabel lblName =
+                new JLabel(username);
+
+        lblName.setFont(
+                new Font(
+                        "Segoe UI",
+                        Font.BOLD,
+                        32
+                )
+        );
+
+        lblName.setForeground(
+                new Color(33, 45, 62)
+        );
+
+        lblName.setBounds(
+                30,
+                70,
+                350,
+                40
+        );
+
+        mainPanel.add(lblName);
+
+        // =========================
+        // SEARCH BAR
+        // =========================
+        JTextField txtSearch =
+                new JTextField();
+
+        txtSearch.setBounds(
+                30,
+                140,
+                370,
+                45
+        );
+
+        txtSearch.setFont(
+                new Font(
+                        "Segoe UI",
+                        Font.PLAIN,
+                        16
+                )
+        );
+
+        txtSearch.setBorder(
+                BorderFactory.createCompoundBorder(
+                        BorderFactory.createLineBorder(
+                                new Color(220,220,220)
+                        ),
+                        new EmptyBorder(
+                                0,
+                                15,
+                                0,
+                                15
+                        )
+                )
+        );
+
+        txtSearch.setText("Tìm kiếm phòng, dịch vụ...");
+
+        mainPanel.add(txtSearch);
+
+        // =========================
+        // FUNCTION PANEL
+        // =========================
+        JPanel functionPanel =
+                new JPanel();
+
+        functionPanel.setLayout(
+                new GridLayout(
+                        1,
+                        3,
+                        15,
+                        15
+                )
+        );
+
+        functionPanel.setBackground(
+                new Color(245,247,250)
+        );
+
+        functionPanel.setBounds(
+                20,
+                240,
+                390,
+                220
+        );
+
+        // card 1
+        JPanel cardBooking =
+                createCard(
+                        "Đặt phòng",
+                        "Đặt phòng nhanh chóng"
+                );
+
+        // card 2
+        JPanel cardService =
+                createCard(
+                        "Dịch vụ khác",
+                        "Nhiều tiện ích hấp dẫn"
+                );
+
+        // card 3
+        JPanel cardSearch =
+                createCard(
+                        "Tra cứu",
+                        "Xem thông tin hóa đơn"
+                );
+
+        functionPanel.add(cardBooking);
+
+        functionPanel.add(cardService);
+
+        functionPanel.add(cardSearch);
+
+        mainPanel.add(functionPanel);
+
+        // =========================
+        // BOTTOM NAVIGATION
+        // =========================
+        JPanel navBar =
+                new JPanel();
+
+        navBar.setLayout(
+                new GridLayout(
+                        1,
+                        3
+                )
+        );
+
+        navBar.setBackground(Color.WHITE);
+
+        navBar.setBounds(
+                0,
+                690,
+                450,
+                70
+        );
+
+        JButton btnHome =
+                new JButton("Trang chủ");
+
+        JButton btnRoom =
+                new JButton("Phòng");
+
+        JButton btnProfile =
+                new JButton("Thông tin");
+
+        styleNavButton(btnHome);
+        styleNavButton(btnRoom);
+        styleNavButton(btnProfile);
+
+        navBar.add(btnHome);
+        navBar.add(btnRoom);
+        navBar.add(btnProfile);
+
+        mainPanel.add(navBar);
+
+        add(mainPanel);
+    }
+
+    // =========================
+    // CREATE CARD
+    // =========================
+    private JPanel createCard(
+            String title,
+            String desc
+    ) {
+
+        JPanel panel =
+                new JPanel();
+
+        panel.setLayout(null);
+
+        panel.setBackground(Color.WHITE);
+
+        panel.setBorder(
+                BorderFactory.createLineBorder(
+                        new Color(230,230,230)
+                )
+        );
+
+        JLabel lblTitle =
+                new JLabel(title);
+
+        lblTitle.setFont(
+                new Font(
+                        "Segoe UI",
+                        Font.BOLD,
+                        18
+                )
+        );
+
+        lblTitle.setBounds(
+                15,
+                30,
+                150,
+                30
+        );
+
+        panel.add(lblTitle);
+
+        JLabel lblDesc =
+                new JLabel(
+                        "<html><center>" +
+                                desc +
+                                "</center></html>"
+                );
+
+        lblDesc.setFont(
+                new Font(
+                        "Segoe UI",
+                        Font.PLAIN,
+                        13
+                )
+        );
+
+        lblDesc.setForeground(Color.GRAY);
+
+        lblDesc.setBounds(
+                10,
+                80,
+                100,
+                60
+        );
+
+        panel.add(lblDesc);
+
+        return panel;
+    }
+
+    // =========================
+    // STYLE NAV BUTTON
+    // =========================
+    private void styleNavButton(
+            JButton button
+    ) {
+
+        button.setFocusPainted(false);
+
+        button.setBackground(Color.WHITE);
+
+        button.setFont(
+                new Font(
+                        "Segoe UI",
+                        Font.PLAIN,
+                        15
+                )
+        );
+
+        button.setBorder(null);
+    }
+}

@@ -1,0 +1,106 @@
+package hotel;
+
+import javax.swing.*;
+import java.awt.*;
+
+public class RegisterFrame extends JFrame {
+
+    private JTextField txtUsername;
+
+    private JPasswordField txtPassword;
+
+    private JButton btnRegister;
+
+    private TaiKhoanService tkService;
+
+    public RegisterFrame() {
+
+        tkService =
+                new TaiKhoanService();
+
+        setTitle("Đăng ký");
+
+        setSize(400, 250);
+
+        setLocationRelativeTo(null);
+
+        setDefaultCloseOperation(
+                JFrame.EXIT_ON_CLOSE
+        );
+
+        JPanel panel = new JPanel();
+
+        panel.setLayout(
+                new GridLayout(3, 2, 10, 10)
+        );
+
+        panel.add(
+                new JLabel("Tên đăng nhập:")
+        );
+
+        txtUsername = new JTextField();
+
+        panel.add(txtUsername);
+
+        panel.add(
+                new JLabel("Mật khẩu:")
+        );
+
+        txtPassword = new JPasswordField();
+
+        panel.add(txtPassword);
+
+        btnRegister =
+                new JButton("Đăng ký");
+
+        panel.add(btnRegister);
+
+        JButton btnLogin =
+                new JButton("Qua đăng nhập");
+
+        panel.add(btnLogin);
+
+        add(panel);
+
+        // đăng ký
+        btnRegister.addActionListener(e -> {
+
+            String username =
+                    txtUsername.getText();
+
+            String password =
+                    new String(
+                            txtPassword.getPassword()
+                    );
+
+            boolean success =
+                    tkService.dangKy(
+                            username,
+                            password
+                    );
+
+            if (success) {
+
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Đăng ký thành công"
+                );
+
+            } else {
+
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Đăng ký thất bại"
+                );
+            }
+        });
+
+        // qua đăng nhập
+        btnLogin.addActionListener(e -> {
+
+            new LoginFrame().setVisible(true);
+
+            dispose();
+        });
+    }
+}

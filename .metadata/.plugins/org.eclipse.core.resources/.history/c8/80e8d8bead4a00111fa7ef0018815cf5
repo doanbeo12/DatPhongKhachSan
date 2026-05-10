@@ -1,0 +1,90 @@
+package hotel;
+
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import java.awt.*;
+
+public class LoginFrame extends JFrame {
+
+    private JTextField txtUsername;
+    private JPasswordField txtPassword;
+
+    private JButton btnLogin;
+    private JButton btnRegister;
+
+    private TaiKhoanService tkService;
+    public LoginFrame() {
+        rightPanel.add(txtPassword);
+
+        btnLogin = new JButton("Đăng nhập");
+
+        btnLogin.setBounds(70, 300, 300, 45);
+
+        btnLogin.setBackground(new Color(33, 45, 62));
+
+        btnLogin.setForeground(Color.WHITE);
+
+        btnLogin.setFocusPainted(false);
+
+        btnLogin.setFont(new Font("Segoe UI", Font.BOLD, 16));
+
+        rightPanel.add(btnLogin);
+
+        btnRegister = new JButton("Đăng ký tài khoản");
+
+        btnRegister.setBounds(70, 360, 300, 40);
+
+        btnRegister.setBackground(Color.WHITE);
+
+        btnRegister.setForeground(new Color(33, 45, 62));
+
+        btnRegister.setFocusPainted(false);
+
+        btnRegister.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+
+        rightPanel.add(btnRegister);
+
+        // =========================
+        // LOGIN EVENT
+        // =========================
+        btnLogin.addActionListener(e -> {
+
+            String username = txtUsername.getText();
+
+            String password =
+                    new String(txtPassword.getPassword());
+
+            TaiKhoan tk =
+                    tkService.dangNhap(username, password);
+
+            if (tk != null) {
+
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Đăng nhập thành công"
+                );
+
+            } else {
+
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Sai tài khoản hoặc mật khẩu"
+                );
+            }
+        });
+
+        // =========================
+        // REGISTER EVENT
+        // =========================
+        btnRegister.addActionListener(e -> {
+
+            new RegisterFrame().setVisible(true);
+
+            dispose();
+        });
+
+        add(leftPanel, BorderLayout.WEST);
+
+        add(rightPanel, BorderLayout.CENTER);
+    }
+}

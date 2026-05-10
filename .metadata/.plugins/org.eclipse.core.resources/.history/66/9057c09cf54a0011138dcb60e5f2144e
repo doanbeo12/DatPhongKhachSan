@@ -1,0 +1,207 @@
+package hotel;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+public class DanhSachPhongFrame extends JFrame {
+
+    private TaiKhoan taiKhoan;
+
+    private JTable table;
+
+    private DefaultTableModel model;
+
+    public DanhSachPhongFrame(
+            TaiKhoan taiKhoan
+    ) {
+
+        this.taiKhoan = taiKhoan;
+
+        setTitle("Danh sách phòng");
+
+        setSize(750, 500);
+
+        setLocationRelativeTo(null);
+
+        setDefaultCloseOperation(
+                JFrame.DISPOSE_ON_CLOSE
+        );
+
+        setLayout(new BorderLayout());
+
+        // =========================
+        // TITLE
+        // =========================
+        JLabel lblTitle =
+                new JLabel(
+                        "DANH SÁCH PHÒNG",
+                        SwingConstants.CENTER
+                );
+
+        lblTitle.setFont(
+                new Font(
+                        "Segoe UI",
+                        Font.BOLD,
+                        24
+                )
+        );
+
+        lblTitle.setBorder(
+                BorderFactory.createEmptyBorder(
+                        15,
+                        0,
+                        15,
+                        0
+                )
+        );
+
+        add(lblTitle, BorderLayout.NORTH);
+
+        // =========================
+        // TABLE
+        // =========================
+        model =
+                new DefaultTableModel();
+
+        model.addColumn("Mã phòng");
+
+        model.addColumn("Loại phòng");
+
+        model.addColumn("Giá phòng");
+
+        model.addColumn("Trạng thái");
+
+        table =
+                new JTable(model);
+
+        table.setRowHeight(30);
+
+        table.setFont(
+                new Font(
+                        "Segoe UI",
+                        Font.PLAIN,
+                        14
+                )
+        );
+
+        table.getTableHeader().setFont(
+                new Font(
+                        "Segoe UI",
+                        Font.BOLD,
+                        14
+                )
+        );
+
+        JScrollPane scrollPane =
+                new JScrollPane(table);
+
+        add(scrollPane, BorderLayout.CENTER);
+
+        // =========================
+        // BUTTON PANEL
+        // =========================
+        JPanel bottomPanel =
+                new JPanel();
+
+        // chỉ admin mới thấy nút thêm
+        if (
+                taiKhoan.getVaiTro()
+                        .equals("admin")
+        ) {
+
+            JButton btnThem =
+                    new JButton("Thêm phòng");
+
+            btnThem.setFont(
+                    new Font(
+                            "Segoe UI",
+                            Font.BOLD,
+                            14
+                    )
+            );
+
+            bottomPanel.add(btnThem);
+
+            btnThem.addActionListener(e -> {
+
+                new ThemPhongFrame()
+                        .setVisible(true);
+            });
+        }
+
+        add(bottomPanel, BorderLayout.SOUTH);
+
+        // =========================
+        // LOAD DATABASE
+        // =========================
+        loadPhong();
+    }
+
+    // =========================
+    // LOAD PHÒNG
+    // =========================
+    private void loadPhong() {
+
+        model.setRowCount(0);
+
+        String sql =
+                "SELECT * FROM phong";
+
+        try (
+
+                Connection conn =
+                        DBConnection.getConnection();
+
+                PreparedStatement stmt =
+                        conn.prepareStatement(sql);
+
+                ResultSet rs =
+                        stmt.executeQuery()
+
+        ) {
+
+            while (rs.next()) {
+
+                String maPhong =
+                        rs.getString("maPhong");
+
+                String loaiPhong =
+                        rs.getString("loaiPhong");
+
+                double giaPhong =
+                        rs.getDouble("giaPhong");
+
+                boolean trangThai =
+                        rs.getBoolean("trangThai");
+
+                model.addRow(
+                        new Object[]{
+
+                                maPhong,
+
+                                loaiPhong,
+
+                                giaPhong,
+
+                                trangThai
+                                        ? "Đã đặt"
+                                        : "Trống"
+                        }
+                );
+            }
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Lỗi load dữ liệu phòng"
+            );
+        }
+    }
+}

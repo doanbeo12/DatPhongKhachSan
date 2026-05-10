@@ -1,0 +1,332 @@
+package hotel;
+
+import javax.swing.*;
+import java.awt.*;
+
+public class ThemPhongFrame extends JFrame {
+
+    private JTextField txtMaPhong;
+
+    private JTextField txtLoaiPhong;
+
+    private JTextField txtGiaPhong;
+
+    private JCheckBox chkTrangThai;
+
+    private JButton btnThem;
+
+    public ThemPhongFrame() {
+
+        setTitle("Thêm phòng");
+
+        setSize(450, 400);
+
+        setLocationRelativeTo(null);
+
+        setDefaultCloseOperation(
+                JFrame.DISPOSE_ON_CLOSE
+        );
+
+        setLayout(null);
+
+        getContentPane().setBackground(
+                new Color(30, 41, 59)
+        );
+
+        // =========================
+        // TITLE
+        // =========================
+        JLabel lblTitle =
+                new JLabel(
+                        "THÊM PHÒNG",
+                        SwingConstants.CENTER
+                );
+
+        lblTitle.setFont(
+                new Font(
+                        "Segoe UI",
+                        Font.BOLD,
+                        24
+                )
+        );
+
+        lblTitle.setForeground(
+                Color.WHITE
+        );
+
+        lblTitle.setBounds(
+                100,
+                20,
+                250,
+                40
+        );
+
+        add(lblTitle);
+
+        // =========================
+        // MÃ PHÒNG
+        // =========================
+        JLabel lblMaPhong =
+                new JLabel("Mã phòng");
+
+        lblMaPhong.setForeground(
+                Color.WHITE
+        );
+
+        lblMaPhong.setFont(
+                new Font(
+                        "Segoe UI",
+                        Font.PLAIN,
+                        16
+                )
+        );
+
+        lblMaPhong.setBounds(
+                40,
+                90,
+                120,
+                30
+        );
+
+        add(lblMaPhong);
+
+        txtMaPhong =
+                new JTextField();
+
+        txtMaPhong.setBounds(
+                170,
+                90,
+                220,
+                35
+        );
+
+        txtMaPhong.setFont(
+                new Font(
+                        "Segoe UI",
+                        Font.PLAIN,
+                        15
+                )
+        );
+
+        add(txtMaPhong);
+
+        // =========================
+        // LOẠI PHÒNG
+        // =========================
+        JLabel lblLoaiPhong =
+                new JLabel("Loại phòng");
+
+        lblLoaiPhong.setForeground(
+                Color.WHITE
+        );
+
+        lblLoaiPhong.setFont(
+                new Font(
+                        "Segoe UI",
+                        Font.PLAIN,
+                        16
+                )
+        );
+
+        lblLoaiPhong.setBounds(
+                40,
+                145,
+                120,
+                30
+        );
+
+        add(lblLoaiPhong);
+
+        txtLoaiPhong =
+                new JTextField();
+
+        txtLoaiPhong.setBounds(
+                170,
+                145,
+                220,
+                35
+        );
+
+        txtLoaiPhong.setFont(
+                new Font(
+                        "Segoe UI",
+                        Font.PLAIN,
+                        15
+                )
+        );
+
+        add(txtLoaiPhong);
+
+        // =========================
+        // GIÁ PHÒNG
+        // =========================
+        JLabel lblGiaPhong =
+                new JLabel("Giá phòng");
+
+        lblGiaPhong.setForeground(
+                Color.WHITE
+        );
+
+        lblGiaPhong.setFont(
+                new Font(
+                        "Segoe UI",
+                        Font.PLAIN,
+                        16
+                )
+        );
+
+        lblGiaPhong.setBounds(
+                40,
+                200,
+                120,
+                30
+        );
+
+        add(lblGiaPhong);
+
+        txtGiaPhong =
+                new JTextField();
+
+        txtGiaPhong.setBounds(
+                170,
+                200,
+                220,
+                35
+        );
+
+        txtGiaPhong.setFont(
+                new Font(
+                        "Segoe UI",
+                        Font.PLAIN,
+                        15
+                )
+        );
+
+        add(txtGiaPhong);
+
+        // =========================
+        // TRẠNG THÁI
+        // =========================
+        chkTrangThai =
+                new JCheckBox("Đã đặt");
+
+        chkTrangThai.setBackground(
+                new Color(30, 41, 59)
+        );
+
+        chkTrangThai.setForeground(
+                Color.WHITE
+        );
+
+        chkTrangThai.setFont(
+                new Font(
+                        "Segoe UI",
+                        Font.PLAIN,
+                        15
+                )
+        );
+
+        chkTrangThai.setBounds(
+                170,
+                250,
+                120,
+                30
+        );
+
+        add(chkTrangThai);
+
+        // =========================
+        // BUTTON THÊM
+        // =========================
+        btnThem =
+                new JButton("Thêm phòng");
+
+        btnThem.setBounds(
+                130,
+                305,
+                180,
+                40
+        );
+
+        btnThem.setFont(
+                new Font(
+                        "Segoe UI",
+                        Font.BOLD,
+                        16
+                )
+        );
+
+        btnThem.setBackground(
+                new Color(51, 65, 85)
+        );
+
+        btnThem.setForeground(
+                Color.WHITE
+        );
+
+        btnThem.setFocusPainted(false);
+
+        add(btnThem);
+
+        // =========================
+        // EVENT BUTTON
+        // =========================
+        btnThem.addActionListener(e -> {
+
+            try {
+
+                String maPhong =
+                        txtMaPhong.getText();
+
+                String loaiPhong =
+                        txtLoaiPhong.getText();
+
+                double giaPhong =
+                        Double.parseDouble(
+                                txtGiaPhong.getText()
+                        );
+
+                boolean trangThai =
+                        chkTrangThai.isSelected();
+
+                Phong phong =
+                        new Phong(
+                                maPhong,
+                                loaiPhong,
+                                giaPhong,
+                                trangThai
+                        );
+
+                PhongDAO dao =
+                        new PhongDAO();
+
+                boolean success =
+                        dao.themPhong(phong);
+
+                if (success) {
+
+                    JOptionPane.showMessageDialog(
+                            this,
+                            "Thêm phòng thành công"
+                    );
+
+                    dispose();
+
+                } else {
+
+                    JOptionPane.showMessageDialog(
+                            this,
+                            "Thêm phòng thất bại"
+                    );
+                }
+
+            } catch (Exception ex) {
+
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Dữ liệu không hợp lệ"
+                );
+            }
+        });
+    }
+}

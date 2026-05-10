@@ -1,0 +1,207 @@
+package hotel;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class HoaDonService {
+
+    private List<HoaDon> danhSachHoaDon;
+
+    public HoaDonService() {
+
+        danhSachHoaDon =
+                new ArrayList<>();
+    }
+
+    // =========================
+    // TẠO HÓA ĐƠN
+    // =========================
+    public HoaDon taoHoaDon(
+            DatPhong dp,
+            double giaPhong
+    ) {
+
+        if (dp == null) {
+
+            System.out.println(
+                    "Đặt phòng không tồn tại."
+            );
+
+            return null;
+        }
+
+        String maHD =
+
+                "HD"
+                + (danhSachHoaDon.size() + 1);
+
+        HoaDon hd =
+                new HoaDon(
+                        maHD,
+                        dp,
+                        giaPhong
+                );
+
+        danhSachHoaDon.add(hd);
+
+        System.out.println(
+                "Tạo hóa đơn thành công."
+        );
+
+        return hd;
+    }
+
+    // =========================
+    // TÌM HÓA ĐƠN
+    // =========================
+    public HoaDon timHoaDon(
+            String maHD
+    ) {
+
+        for (HoaDon hd
+                : danhSachHoaDon) {
+
+            if (
+                    hd.getMaHoaDon()
+                            .equals(maHD)
+            ) {
+
+                return hd;
+            }
+        }
+
+        return null;
+    }
+
+    // =========================
+    // XÓA HÓA ĐƠN
+    // =========================
+    public void xoaHoaDon(
+            String maHD
+    ) {
+
+        HoaDon canXoa = null;
+
+        for (HoaDon hd
+                : danhSachHoaDon) {
+
+            if (
+                    hd.getMaHoaDon()
+                            .equals(maHD)
+            ) {
+
+                canXoa = hd;
+
+                break;
+            }
+        }
+
+        if (canXoa != null) {
+
+            danhSachHoaDon.remove(
+                    canXoa
+            );
+
+            System.out.println(
+                    "Xóa hóa đơn thành công."
+            );
+
+        } else {
+
+            System.out.println(
+                    "Không tìm thấy hóa đơn."
+            );
+        }
+    }
+
+    // =========================
+    // HIỂN THỊ 1 HÓA ĐƠN
+    // =========================
+    public void hienThiHoaDon(
+            String maHD
+    ) {
+
+        HoaDon hd =
+                timHoaDon(maHD);
+
+        if (hd != null) {
+
+            hd.hienThiHoaDon();
+
+        } else {
+
+            System.out.println(
+                    "Không tìm thấy hóa đơn."
+            );
+        }
+    }
+
+    // =========================
+    // HIỂN THỊ DS HÓA ĐƠN
+    // =========================
+    public void hienThiDanhSachHoaDon() {
+
+        if (
+                danhSachHoaDon.isEmpty()
+        ) {
+
+            System.out.println(
+                    "Danh sách hóa đơn trống."
+            );
+
+            return;
+        }
+
+        System.out.println(
+                "=== DANH SÁCH HÓA ĐƠN ==="
+        );
+
+        for (HoaDon hd
+                : danhSachHoaDon) {
+
+            System.out.println(
+
+                    hd.getMaHoaDon()
+
+                    + " | "
+
+                    + hd.getDatPhong()
+                    .getTenDangNhap()
+
+                    + " | "
+
+                    + hd.getDatPhong()
+                    .getMaPhong()
+
+                    + " | "
+
+                    + hd.getTongTien()
+            );
+        }
+    }
+
+    // =========================
+    // TÍNH TỔNG DOANH THU
+    // =========================
+    public double tinhTongDoanhThu() {
+
+        double tong = 0;
+
+        for (HoaDon hd
+                : danhSachHoaDon) {
+
+            tong += hd.getTongTien();
+        }
+
+        return tong;
+    }
+
+    // =========================
+    // GETTER
+    // =========================
+    public List<HoaDon>
+    getDanhSachHoaDon() {
+
+        return danhSachHoaDon;
+    }
+}

@@ -1,0 +1,42 @@
+package hotel;
+
+public class TaiKhoanService {
+
+    private TaiKhoanDAO tkDAO;
+
+    public TaiKhoanService() {
+
+        tkDAO = new TaiKhoanDAO();
+    }
+
+    // đăng ký
+    public boolean dangKy(String tenDangNhap,
+                           String matKhau) {
+
+        if (tenDangNhap == null
+                || tenDangNhap.trim().isEmpty()
+                || matKhau == null
+                || matKhau.trim().isEmpty()) {
+
+            return false;
+        }
+
+        TaiKhoan tk = new TaiKhoan(
+                tenDangNhap,
+                matKhau,
+                "NHANVIEN"
+        );
+
+        return tkDAO.dangKy(tk);
+    }
+
+    // đăng nhập
+    public TaiKhoan dangNhap(String tenDangNhap,
+                             String matKhau) {
+
+        return tkDAO.dangNhap(
+                tenDangNhap,
+                matKhau
+        );
+    }
+}

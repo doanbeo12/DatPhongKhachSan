@@ -1,0 +1,85 @@
+import login.TaiKhoan;
+import hotel.service.TaiKhoanService;
+
+import javax.swing.*;
+import java.awt.*;
+
+public class LoginFrame extends JFrame {
+
+    private JTextField txtUsername;
+    private JPasswordField txtPassword;
+    private JButton btnLogin;
+
+    private TaiKhoanService tkService;
+    public LoginFrame() {
+
+        tkService = new TaiKhoanService();
+
+        setTitle("Đăng nhập");
+        setSize(400, 250);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(3, 2, 10, 10));
+
+        panel.add(new JLabel("Tên đăng nhập:"));
+
+        txtUsername = new JTextField();
+        panel.add(txtUsername);
+
+        panel.add(new JLabel("Mật khẩu:"));
+
+        txtPassword = new JPasswordField();
+        panel.add(txtPassword);
+
+        btnLogin = new JButton("Đăng nhập");
+        panel.add(btnLogin);
+
+        JButton btnRegister =
+                new JButton("Qua đăng ký");
+
+        panel.add(btnRegister);
+
+        add(panel);
+
+        // sự kiện đăng nhập
+        btnLogin.addActionListener(e -> {
+
+            String username =
+                    txtUsername.getText();
+
+            String password =
+                    new String(txtPassword.getPassword());
+
+            TaiKhoan tk = tkService.dangNhap(
+                    username,
+                    password
+            );
+
+            if (tk != null) {
+
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Xin chào "
+                        + tk.getTenDangNhap()
+                );
+
+            } else {
+
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Sai tài khoản hoặc mật khẩu"
+                );
+            }
+        });
+
+        // mở đăng ký
+        btnRegister.addActionListener(e -> {
+
+            new RegisterFrame().setVisible(true);
+
+            dispose();
+        });
+    }
+}

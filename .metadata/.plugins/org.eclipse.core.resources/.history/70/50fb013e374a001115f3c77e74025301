@@ -1,0 +1,110 @@
+import java.util.ArrayList;
+import java.util.List;
+
+public class KhachHangService {
+
+    private List<KhachHang> danhSachKH;
+
+    public KhachHangService() {
+        danhSachKH = new ArrayList<>();
+    }
+
+    // Thêm khách hàng
+    public void themKH(KhachHang kh) {
+
+        for (KhachHang k : danhSachKH) {
+
+            if (k.getMaKhachHang().equals(kh.getMaKhachHang())) {
+
+                System.out.println("Khách hàng đã tồn tại!");
+                return;
+            }
+        }
+
+        danhSachKH.add(kh);
+        System.out.println("Thêm khách hàng thành công!");
+    }
+
+    // Sửa khách hàng
+    public void suaKH(String maKH, KhachHang khMoi) {
+
+        for (KhachHang k : danhSachKH) {
+
+            if (k.getMaKhachHang().equals(maKH)) {
+
+                k.setHoTen(khMoi.getHoTen());
+                k.setSoDienThoai(khMoi.getSoDienThoai());
+                k.setCccd(khMoi.getCccd());
+
+                System.out.println("Sửa khách hàng thành công!");
+                return;
+            }
+        }
+
+        System.out.println("Không tìm thấy khách hàng!");
+    }
+
+    // Xóa khách hàng
+    public void xoaKH(String maKH) {
+
+        KhachHang canXoa = null;
+
+        for (KhachHang k : danhSachKH) {
+
+            if (k.getMaKhachHang().equals(maKH)) {
+                canXoa = k;
+                break;
+            }
+        }
+
+        if (canXoa != null) {
+
+            danhSachKH.remove(canXoa);
+            System.out.println("Xóa khách hàng thành công!");
+
+        } else {
+
+            System.out.println("Không tìm thấy khách hàng!");
+        }
+    }
+
+    // Tìm khách hàng
+    public List<KhachHang> timKH(String tuKhoa) {
+
+        List<KhachHang> ketQua = new ArrayList<>();
+
+        for (KhachHang k : danhSachKH) {
+
+            if (k.getHoTen().contains(tuKhoa)
+                    || k.getSoDienThoai().contains(tuKhoa)
+                    || k.getCccd().contains(tuKhoa)) {
+
+                ketQua.add(k);
+            }
+        }
+
+        return ketQua;
+    }
+
+    // Hiển thị danh sách khách hàng
+    public void hienThiDanhSachKH() {
+
+        for (KhachHang k : danhSachKH) {
+
+            System.out.println(
+                    k.getMaKhachHang()
+                    + " | "
+                    + k.getHoTen()
+                    + " | "
+                    + k.getSoDienThoai()
+                    + " | "
+                    + k.getCccd()
+            );
+        }
+    }
+
+    // Getter danh sách
+    public List<KhachHang> getDanhSachKH() {
+        return danhSachKH;
+    }
+}

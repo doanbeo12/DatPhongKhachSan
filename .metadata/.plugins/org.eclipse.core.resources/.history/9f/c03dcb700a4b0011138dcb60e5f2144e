@@ -1,0 +1,100 @@
+package hotel;
+import java.time.LocalDate;
+
+public class HoaDon {
+
+    private String maHoaDon;
+    private DatPhong datPhong;
+    private LocalDate ngayLap;
+    private double tongTien;
+
+    public HoaDon(String maHoaDon,
+                  DatPhong datPhong) {
+
+        this.maHoaDon = maHoaDon;
+        this.datPhong = datPhong;
+
+        this.ngayLap = LocalDate.now();
+
+        this.tongTien =
+                datPhong.tinhTongTien();
+    }
+
+    public String getMaHoaDon() {
+        return maHoaDon;
+    }
+
+    public DatPhong getDatPhong() {
+        return datPhong;
+    }
+
+    public LocalDate getNgayLap() {
+        return ngayLap;
+    }
+
+    public double getTongTien() {
+        return tongTien;
+    }
+
+    public void setDatPhong(DatPhong datPhong) {
+        this.datPhong = datPhong;
+    }
+
+    public void setTongTien(double tongTien) {
+        this.tongTien = tongTien;
+    }
+
+    // Hiển thị hóa đơn
+    public void hienThiHoaDon() {
+
+        System.out.println(
+                "===== HÓA ĐƠN ====="
+        );
+
+        System.out.println(
+                "Mã hóa đơn: "
+                + maHoaDon
+        );
+
+        System.out.println(
+                "Khách hàng: "
+                + datPhong.getKhachHang()
+                .getHoTen()
+        );
+
+        System.out.println(
+                "Phòng: "
+                + datPhong.getPhong()
+                .getMaPhong()
+        );
+
+        System.out.println(
+                "Ngày nhận: "
+                + datPhong.getNgayNhan()
+        );
+
+        System.out.println(
+                "Ngày trả: "
+                + datPhong.getNgayTra()
+        );
+
+        System.out.println(
+                "--- Dịch vụ ---"
+        );
+
+        for (DichVu dv :
+                datPhong.getDanhSachDichVu()) {
+
+            System.out.println(
+                    dv.getTenDichVu()
+                    + " - "
+                    + dv.getGia()
+            );
+        }
+
+        System.out.println(
+                "Tổng tiền: "
+                + tongTien
+        );
+    }
+}

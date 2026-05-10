@@ -1,0 +1,194 @@
+package hotel;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+public class PhongDAO {
+
+    public boolean themPhong(
+            Phong phong
+    ) {
+
+        String checkSQL =
+                "SELECT * FROM phong WHERE maPhong = ?";
+
+        String insertSQL =
+                "INSERT INTO phong(maPhong, tenPhong, loaiPhong, giaPhong, trangThai, moTa) VALUES (?, ?, ?, ?, ?, ?)";
+
+        try (
+
+                Connection conn =
+                        DBConnection.getConnection();
+
+                PreparedStatement checkStmt =
+                        conn.prepareStatement(checkSQL)
+
+        ) {
+
+            checkStmt.setString(
+                    1,
+                    phong.getMaPhong()
+            );
+
+            ResultSet rs =
+                    checkStmt.executeQuery();
+
+            if (rs.next()) {
+
+                return false;
+            }
+
+            PreparedStatement insertStmt =
+                    conn.prepareStatement(insertSQL);
+
+            insertStmt.setString(
+                    1,
+                    phong.getMaPhong()
+            );
+
+            insertStmt.setString(
+                    2,
+                    phong.getTenPhong()
+            );
+
+            insertStmt.setString(
+                    3,
+                    phong.getLoaiPhong()
+            );
+
+            insertStmt.setDouble(
+                    4,
+                    phong.getGiaPhong()
+            );
+
+            insertStmt.setBoolean(
+                    5,
+                    phong.isTrangThai()
+            );
+
+            insertStmt.setString(
+                    6,
+                    phong.getMoTa()
+            );
+
+            insertStmt.executeUpdate();
+
+            return true;
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+    public Phong timPhongTheoMa(
+            String maPhong
+    ) {
+
+        String sql =
+                "SELECT * FROM phong WHERE maPhong = ?";
+
+        try (
+
+                Connection conn =
+                        DBConnection.getConnection();
+
+                PreparedStatement stmt =
+                        conn.prepareStatement(sql)
+
+        ) {
+
+            stmt.setString(
+                    1,
+                    maPhong
+            );
+
+            ResultSet rs =
+                    stmt.executeQuery();
+
+            if (rs.next()) {
+
+                return new Phong(
+
+                        rs.getString("maPhong"),
+
+                        rs.getString("tenPhong"),
+
+                        rs.getString("loaiPhong"),
+
+                        rs.getDouble("giaPhong"),
+
+                        rs.getBoolean("trangThai"),
+
+                        rs.getString("moTa")
+                );
+            }
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+    public boolean suaPhong(
+            Phong phong
+    ) {
+
+        String sql =
+                "UPDATE phong SET tenPhong = ?, loaiPhong = ?, giaPhong = ?, trangThai = ?, moTa = ? WHERE maPhong = ?";
+
+        try (
+
+                Connection conn =
+                        DBConnection.getConnection();
+
+                PreparedStatement stmt =
+                        conn.prepareStatement(sql)
+
+        ) {
+
+            stmt.setString(
+                    1,
+                    phong.getTenPhong()
+            );
+
+            stmt.setString(
+                    2,
+                    phong.getLoaiPhong()
+            );
+
+            stmt.setDouble(
+                    3,
+                    phong.getGiaPhong()
+            );
+
+            stmt.setBoolean(
+                    4,
+                    phong.isTrangThai()
+            );
+
+            stmt.setString(
+                    5,
+                    phong.getMoTa()
+            );
+
+            stmt.setString(
+                    6,
+                    phong.getMaPhong()
+            );
+
+            stmt.executeUpdate();
+
+            return true;
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+}

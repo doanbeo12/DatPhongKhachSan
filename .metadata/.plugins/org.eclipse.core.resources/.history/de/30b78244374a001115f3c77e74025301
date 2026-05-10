@@ -1,0 +1,283 @@
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
+import hotel.HoaDon;
+import hotel.KhachHang;
+import hotel.Phong;
+
+public class DatPhongService {
+
+    private List<DatPhong> danhSachDatPhong;
+    private List<HoaDon> danhSachHoaDon;
+
+    public DatPhongService() {
+
+        danhSachDatPhong = new ArrayList<>();
+        danhSachHoaDon = new ArrayList<>();
+    }
+
+    // =========================
+    // THÊM ĐẶT PHÒNG
+    // =========================
+    public void themDatPhong(DatPhong dp) {
+
+        // kiểm tra mã trùng
+        for (DatPhong datPhong : danhSachDatPhong) {
+
+            if (datPhong.getMaDatPhong()
+                    .equals(dp.getMaDatPhong())) {
+
+                System.out.println("Mã đặt phòng đã tồn tại.");
+                return;
+            }
+        }
+
+        // kiểm tra ngày hợp lệ
+        if (dp.getNgayTra().isBefore(dp.getNgayNhan())
+                || dp.getNgayTra().isEqual(dp.getNgayNhan())) {
+
+            System.out.println("Ngày trả phải sau ngày nhận.");
+            return;
+        }
+
+        // kiểm tra trùng lịch
+        for (DatPhong datPhong : danhSachDatPhong) {
+
+            if (datPhong.getPhong()
+                    .getMaPhong()
+                    .equals(dp.getPhong().getMaPhong())) {
+
+                boolean trungLich =
+                        !(dp.getNgayTra().isBefore(datPhong.getNgayNhan())
+                        || dp.getNgayNhan().isAfter(datPhong.getNgayTra()));
+
+                if (trungLich) {
+
+                    System.out.println("Phòng đã được đặt trong khoảng thời gian này.");
+                    return;
+                }
+            }
+        }
+
+        // cập nhật trạng thái phòng
+        dp.getPhong().setTrangThai(true);
+
+        danhSachDatPhong.add(dp);
+
+        System.out.println("Đặt phòng thành công.");
+    }
+
+    // =========================
+    // SỬA ĐẶT PHÒNG
+    // =========================
+    public void suaDatPhong(String maDatPhong,
+                             KhachHang khMoi,
+                             Phong phongMoi,
+                             LocalDate ngayNhanMoi,
+                             LocalDate ngayTraMoi) {
+
+        DatPhong dp = timDatPhong(maDatPhong);
+
+        if (dp == null) {
+
+            System.out.println("Không tìm thấy đặt phòng.");
+            return;
+        }
+
+        // kiểm tra ngày
+        if (ngayTraMoi.isBefore(ngayNhanMoi)
+                || ngayTraMoi.isEqual(ngayNhanMoi)) {
+
+            System.out.println("Ngày không hợp lệ.");
+            return;
+        }
+
+        // kiểm tra trùng lịch
+        for (DatPhong datPhong : danhSachDatPhong) {
+
+            if (!datPhong.getMaDatPhong().equals(maDatPhong)
+                    && datPhong.getPhong().getMaPhong()
+                    .equals(phongMoi.getMaPhong())) {
+
+                boolean trungLich =
+                        !(ngayTraMoi.isBefore(datPhong.getNgayNhan())
+                        || ngayNhanMoi.isAfter(datPhong.getNgayTra()));
+
+                if (trungLich) {
+
+                    System.out.println("Phòng bị trùng lịch.");
+                    return;
+                }
+            }
+        }
+
+        // cập nhật dữ liệu
+        dp.setKhachHang(khMoi);
+        dp.setPhong(phongMoi);
+        dp.setNgayNhan(ngayNhanMoi);
+        dp.setNgayTra(ngayTraMoi);
+
+        System.out.println("Sửa đặt phòng thành công.");
+    }
+
+    // =========================
+    // CHECK OUT + TẠO HÓA ĐƠN
+    // =========================
+    public void checkOut(String maDatPhong) {
+
+        DatPhong dp = timDatPhong(maDatPhong);
+
+        if (dp == null) {
+
+            System.out.println("Không tìm thấy đặt phòng.");
+            return;
+        }
+
+        // tạo hóa đơn
+        HoaDon hd = new HoaDon(
+                "HD" + (danhSachHoaDon.size() + 1),
+                dp
+        );
+
+        danhSachHoaDon.add(hd);
+
+        // trả trạng thái phòng
+        dp.getPhong().setTrangThai(false);
+
+        System.out.println("Check out thành công.");
+
+        // hiển thị hóa đơn
+        hd.hienThiHoaDon();
+    }
+
+    // =========================
+    // XÓA ĐẶT PHÒNG
+    // =========================
+    public void xoaDatPhong(String maDatPhong) {
+
+        DatPhong canXoa = null;
+
+        for (DatPhong dp : danhSachDatPhong) {
+
+            if (dp.getMaDatPhong().equals(maDatPhong)) {
+
+                canXoa = dp;
+                break;
+            }
+        }
+
+        if (canXoa != null) {
+
+            canXoa.getPhong().setTrangThai(false);
+
+            danhSachDatPhong.remove(canXoa);
+
+            System.out.println("Xóa đặt phòng thành công.");
+
+        } else {
+
+            System.out.println("Không tìm thấy đặt phòng.");
+        }
+    }
+
+    // =========================
+    // TÌM ĐẶT PHÒNG
+    // =========================
+    public DatPhong timDatPhong(String maDatPhong) {
+
+        for (DatPhong dp : danhSachDatPhong) {
+
+            if (dp.getMaDatPhong().equals(maDatPhong)) {
+                return dp;
+            }
+        }
+
+        return null;
+    }
+
+    // =========================
+    // THÊM DỊCH VỤ
+    // =========================
+    public void themDichVu(String maDatPhong,
+                            DichVu dv) {
+
+        DatPhong dp = timDatPhong(maDatPhong);
+
+        if (dp != null) {
+
+            dp.themDichVu(dv);
+
+            System.out.println("Đã thêm dịch vụ.");
+
+        } else {
+
+            System.out.println("Không tìm thấy đặt phòng.");
+        }
+    }
+
+    // =========================
+    // HIỂN THỊ DS ĐẶT PHÒNG
+    // =========================
+    public void hienThiDanhSachDatPhong() {
+
+        if (danhSachDatPhong.isEmpty()) {
+
+            System.out.println("Danh sách đặt phòng trống.");
+            return;
+        }
+
+        System.out.println("=== DANH SÁCH ĐẶT PHÒNG ===");
+
+        for (DatPhong dp : danhSachDatPhong) {
+
+            System.out.println(
+                    "Mã: " + dp.getMaDatPhong()
+                    + " | Khách: "
+                    + dp.getKhachHang().getHoTen()
+                    + " | Phòng: "
+                    + dp.getPhong().getMaPhong()
+                    + " | Nhận: "
+                    + dp.getNgayNhan()
+                    + " | Trả: "
+                    + dp.getNgayTra()
+            );
+        }
+    }
+
+    // =========================
+    // HIỂN THỊ DS HÓA ĐƠN
+    // =========================
+    public void hienThiDanhSachHoaDon() {
+
+        if (danhSachHoaDon.isEmpty()) {
+
+            System.out.println("Chưa có hóa đơn.");
+            return;
+        }
+
+        System.out.println("=== DANH SÁCH HÓA ĐƠN ===");
+
+        for (HoaDon hd : danhSachHoaDon) {
+
+            System.out.println(
+                    hd.getMaHoaDon()
+                    + " | "
+                    + hd.getDatPhong()
+                    .getKhachHang()
+                    .getHoTen()
+                    + " | "
+                    + hd.getTongTien()
+            );
+        }
+    }
+
+    // Getter
+    public List<DatPhong> getDanhSachDatPhong() {
+        return danhSachDatPhong;
+    }
+
+    public List<HoaDon> getDanhSachHoaDon() {
+        return danhSachHoaDon;
+    }
+}

@@ -1,0 +1,212 @@
+package hotel;
+
+import javax.swing.*;
+import java.awt.*;
+
+public class ChiTietPhongFrame extends JFrame {
+
+    private DanhSachPhongFrame parent;
+
+    private Phong phong;
+
+    public ChiTietPhongFrame(
+            DanhSachPhongFrame parent,
+            Phong phong
+    ) {
+
+        this.parent = parent;
+
+        this.phong = phong;
+
+        setTitle("Chi tiết phòng");
+
+        setSize(500, 550);
+
+        setLocationRelativeTo(null);
+
+        setLayout(null);
+
+        getContentPane().setBackground(
+                new Color(15, 23, 42)
+        );
+
+        JLabel lblTitle =
+                new JLabel(
+                        "CHI TIẾT PHÒNG",
+                        SwingConstants.CENTER
+                );
+
+        lblTitle.setBounds(
+                80,
+                20,
+                320,
+                40
+        );
+
+        lblTitle.setFont(
+                new Font(
+                        "Segoe UI",
+                        Font.BOLD,
+                        28
+                )
+        );
+
+        lblTitle.setForeground(
+                Color.WHITE
+        );
+
+        add(lblTitle);
+
+        Font font =
+                new Font(
+                        "Segoe UI",
+                        Font.PLAIN,
+                        16
+                );
+
+        int y = 100;
+
+        addLabel(
+                "Mã phòng: " +
+                        phong.getMaPhong(),
+                y,
+                font
+        );
+
+        y += 50;
+
+        addLabel(
+                "Tên phòng: " +
+                        phong.getTenPhong(),
+                y,
+                font
+        );
+
+        y += 50;
+
+        addLabel(
+                "Loại phòng: " +
+                        phong.getLoaiPhong(),
+                y,
+                font
+        );
+
+        y += 50;
+
+        addLabel(
+                "Giá phòng: " +
+                        phong.getGiaPhong(),
+                y,
+                font
+        );
+
+        y += 50;
+
+        addLabel(
+                "Mô tả: " +
+                        phong.getMoTa(),
+                y,
+                font
+        );
+
+        JButton btnXacNhan =
+                new JButton(
+                        "Xác nhận thuê"
+                );
+
+        btnXacNhan.setBounds(
+                140,
+                400,
+                200,
+                45
+        );
+
+        btnXacNhan.setBackground(
+                new Color(34, 197, 94)
+        );
+
+        btnXacNhan.setForeground(
+                Color.WHITE
+        );
+
+        btnXacNhan.setFont(
+                new Font(
+                        "Segoe UI",
+                        Font.BOLD,
+                        16
+                )
+        );
+
+        add(btnXacNhan);
+
+        // =========================
+        // EVENT
+        // =========================
+        btnXacNhan.addActionListener(e -> {
+
+            int confirm =
+                    JOptionPane.showConfirmDialog(
+
+                            this,
+
+                            "Xác nhận thuê phòng?",
+
+                            "Xác nhận",
+
+                            JOptionPane.YES_NO_OPTION
+                    );
+
+            if (
+                    confirm ==
+                    JOptionPane.YES_OPTION
+            ) {
+
+                PhongDAO dao =
+                        new PhongDAO();
+
+                boolean success =
+                        dao.capNhatTrangThaiPhong(
+                                phong.getMaPhong(),
+                                true
+                        );
+
+                if (success) {
+
+                    JOptionPane.showMessageDialog(
+                            this,
+                            "Thuê phòng thành công"
+                    );
+
+                    parent.loadPhong();
+
+                    dispose();
+                }
+            }
+        });
+    }
+
+    private void addLabel(
+            String text,
+            int y,
+            Font font
+    ) {
+
+        JLabel label =
+                new JLabel(text);
+
+        label.setBounds(
+                40,
+                y,
+                400,
+                30
+        );
+
+        label.setForeground(
+                Color.WHITE
+        );
+
+        label.setFont(font);
+
+        add(label);
+    }
+}

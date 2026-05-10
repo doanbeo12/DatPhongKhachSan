@@ -1,0 +1,46 @@
+public class KhachHang {
+
+    private String maKhachHang;
+    private String hoTen;
+    private String soDienThoai;
+    private String cccd;
+
+    public KhachHang(String maKhachHang,
+                     String hoTen,
+                     String soDienThoai,
+                     String cccd) {
+
+        this.maKhachHang = maKhachHang;
+        this.hoTen = hoTen;
+        this.soDienThoai = soDienThoai;
+        this.ccccd = cccd;
+    }
+
+    public String getMaKhachHang() {
+        return maKhachHang;
+    }
+
+    public String getHoTen() {
+        return hoTen;
+    }
+
+    public String getSoDienThoai() {
+        return soDienThoai;
+    }
+
+    public String getCccd() {
+        return cccd;
+    }
+
+    public void setHoTen(String hoTen) {
+        this.hoTen = hoTen;
+    }
+
+    public void setSoDienThoai(String soDienThoai) {
+        this.soDienThoai = soDienThoai;
+    }
+
+    public void setCccd(String cccd) {
+        this.ccccd = cccd;
+    }
+}

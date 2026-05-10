@@ -1,0 +1,82 @@
+package hotel;
+
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import java.awt.*;
+
+public class RegisterFrame extends JFrame {
+
+    private JTextField txtUsername;
+    private JPasswordField txtPassword;
+
+    private JButton btnRegister;
+    private JButton btnBack;
+
+    private TaiKhoanService tkService;
+
+    public RegisterFrame() {
+    	tkService = new TaiKhoanService();
+        rightPanel.add(btnRegister);
+
+        btnBack = new JButton("Quay lại đăng nhập");
+
+        btnBack.setBounds(70, 360, 300, 40);
+
+        btnBack.setBackground(Color.WHITE);
+
+        btnBack.setForeground(new Color(52, 73, 94));
+
+        btnBack.setFocusPainted(false);
+
+        btnBack.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+
+        rightPanel.add(btnBack);
+
+        // =========================
+        // REGISTER EVENT
+        // =========================
+        btnRegister.addActionListener(e -> {
+
+            String username = txtUsername.getText();
+
+            String password =
+                    new String(txtPassword.getPassword());
+
+            boolean success =
+                    tkService.dangKy(username, password);
+
+            if (success) {
+
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Đăng ký thành công"
+                );
+
+                new LoginFrame().setVisible(true);
+
+                dispose();
+
+            } else {
+
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Đăng ký thất bại"
+                );
+            }
+        });
+
+        // =========================
+        // BACK TO LOGIN
+        // =========================
+        btnBack.addActionListener(e -> {
+
+            new LoginFrame().setVisible(true);
+
+            dispose();
+        });
+
+        add(leftPanel, BorderLayout.WEST);
+
+        add(rightPanel, BorderLayout.CENTER);
+    }
+}
