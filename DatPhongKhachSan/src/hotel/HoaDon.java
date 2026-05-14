@@ -13,6 +13,8 @@ public class HoaDon {
 
     private double tongTien;
 
+    private double giaPhong;
+
     public HoaDon(
             String maHoaDon,
             DatPhong datPhong,
@@ -23,37 +25,55 @@ public class HoaDon {
 
         this.datPhong = datPhong;
 
+        this.giaPhong = giaPhong;
+
         this.ngayLap = LocalDate.now();
 
-        long soNgay = ChronoUnit.DAYS.between(
+        long soNgay =
+                ChronoUnit.DAYS.between(
 
-                datPhong.getNgayNhan()
-                        .toLocalDate(),
+                        datPhong.getNgayNhan()
+                                .toLocalDate(),
 
-                datPhong.getNgayTra()
-                        .toLocalDate()
-        );
+                        datPhong.getNgayTra()
+                                .toLocalDate()
+                );
 
         this.tongTien =
                 soNgay * giaPhong;
     }
 
+    // =========================
+    // GETTER
+    // =========================
     public String getMaHoaDon() {
+
         return maHoaDon;
     }
 
     public DatPhong getDatPhong() {
+
         return datPhong;
     }
 
     public LocalDate getNgayLap() {
+
         return ngayLap;
     }
 
     public double getTongTien() {
+
         return tongTien;
     }
 
+    public double getGiaPhong() {
+
+        return giaPhong;
+    }
+
+    // =========================
+    // SETTER
+    // =========================
     public void setDatPhong(
             DatPhong datPhong
     ) {
@@ -69,47 +89,71 @@ public class HoaDon {
     }
 
     // =========================
-    // HIỂN THỊ HÓA ĐƠN
+    // TÍNH SỐ NGÀY THUÊ
+    // =========================
+    public long getSoNgayThue() {
+
+        return ChronoUnit.DAYS.between(
+
+                datPhong.getNgayNhan()
+                        .toLocalDate(),
+
+                datPhong.getNgayTra()
+                        .toLocalDate()
+        );
+    }
+
+    // =========================
+    // HIỂN THỊ CONSOLE
     // =========================
     public void hienThiHoaDon() {
 
-        System.out.println(
-                "===== HÓA ĐƠN ====="
-        );
+        System.out.println(toString());
+    }
 
-        System.out.println(
-                "Mã hóa đơn: "
+    // =========================
+    // TO STRING
+    // =========================
+    @Override
+    public String toString() {
+
+        return
+
+                "===== HÓA ĐƠN =====\n\n"
+
+                + "Mã hóa đơn: "
                 + maHoaDon
-        );
 
-        System.out.println(
-                "Tài khoản: "
+                + "\nTài khoản: "
                 + datPhong.getTenDangNhap()
-        );
 
-        System.out.println(
-                "Phòng: "
+                + "\nMã phòng: "
                 + datPhong.getMaPhong()
-        );
 
-        System.out.println(
-                "Ngày nhận: "
+                + "\nNgày nhận: "
                 + datPhong.getNgayNhan()
-        );
 
-        System.out.println(
-                "Ngày trả: "
+                + "\nNgày trả: "
                 + datPhong.getNgayTra()
-        );
 
-        System.out.println(
-                "Ngày lập: "
-                + ngayLap
-        );
+                + "\nSố ngày thuê: "
+                + getSoNgayThue()
 
-        System.out.println(
-                "Tổng tiền: "
-                + tongTien
-        );
+                + "\nGiá phòng: "
+                + String.format(
+                        "%,.0f",
+                        giaPhong
+                )
+                + " VND"
+
+                + "\n\nTỔNG TIỀN: "
+                + String.format(
+                        "%,.0f",
+                        tongTien
+                )
+                + " VND"
+
+                + "\n\nNgày lập: "
+                + ngayLap;
     }
 }

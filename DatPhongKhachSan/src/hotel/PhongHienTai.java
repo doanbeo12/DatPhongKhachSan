@@ -382,35 +382,66 @@ public class PhongHienTai extends JFrame {
 
                 btnHoaDon.addActionListener(ev -> {
 
-                    String hoaDon =
+                    try {
 
-                            "===== HÓA ĐƠN =====\n\n"
+                        java.time.LocalDate ngayNhan =
+                                java.time.LocalDate.parse(
+                                        ngayNhanHD
+                                );
 
-                            + "Mã phòng: "
-                            + maPhongHD
+                        java.time.LocalDate ngayTra =
+                                java.time.LocalDate.parse(
+                                        ngayTraHD
+                                );
 
-                            + "\nTên phòng: "
-                            + tenPhongHD
+                        long soNgay =
+                                java.time.temporal.ChronoUnit.DAYS.between(
+                                        ngayNhan,
+                                        ngayTra
+                                );
 
-                            + "\nNgày nhận: "
-                            + ngayNhanHD
+                        double tongTien =
+                                soNgay * giaPhongHD;
 
-                            + "\nNgày trả: "
-                            + ngayTraHD
+                        DatPhong dp =
+                                new DatPhong(
 
-                            + "\nGiá phòng: "
-                            + giaPhongHD;
+                                        0,
 
-                    JOptionPane.showMessageDialog(
+                                        taiKhoan.getTenDangNhap(),
 
-                            frame,
+                                        maPhongHD,
 
-                            hoaDon,
+                                        java.sql.Date.valueOf(ngayNhanHD),
 
-                            "Hóa đơn",
+                                        java.sql.Date.valueOf(ngayTraHD)
+                                );
 
-                            JOptionPane.INFORMATION_MESSAGE
-                    );
+                        HoaDon hd =
+                                new HoaDon(
+
+                                        "HD" + System.currentTimeMillis(),
+
+                                        dp,
+
+                                        giaPhongHD
+                                );
+
+                        JOptionPane.showMessageDialog(
+
+                                frame,
+
+                                hd.toString(),
+
+                                "Hóa đơn",
+
+                                JOptionPane.INFORMATION_MESSAGE
+                        );
+
+                    } catch (Exception ex) {
+
+                        ex.printStackTrace();
+                    }
                 });
 
                 frame.setVisible(true);

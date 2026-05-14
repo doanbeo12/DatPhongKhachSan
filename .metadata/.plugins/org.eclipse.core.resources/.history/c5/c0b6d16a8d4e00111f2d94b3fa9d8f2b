@@ -1,0 +1,154 @@
+package hotel;
+
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+
+public class HoaDon {
+
+    private String maHoaDon;
+
+    private DatPhong datPhong;
+
+    private LocalDate ngayLap;
+
+    private double tongTien;
+
+    private double giaPhong;
+
+    private long soNgay;
+
+    public HoaDon(
+            String maHoaDon,
+            DatPhong datPhong,
+            double giaPhong
+    ) {
+
+        this.maHoaDon = maHoaDon;
+
+        this.datPhong = datPhong;
+
+        this.giaPhong = giaPhong;
+
+        this.ngayLap = LocalDate.now();
+
+        // =========================
+        // TÍNH SỐ NGÀY THUÊ
+        // =========================
+        this.soNgay =
+                ChronoUnit.DAYS.between(
+
+                        datPhong.getNgayNhan()
+                                .toLocalDate(),
+
+                        datPhong.getNgayTra()
+                                .toLocalDate()
+                );
+
+        // =========================
+        // TÍNH TỔNG TIỀN
+        // =========================
+        this.tongTien =
+                soNgay * giaPhong;
+    }
+
+    public String getMaHoaDon() {
+        return maHoaDon;
+    }
+
+    public DatPhong getDatPhong() {
+        return datPhong;
+    }
+
+    public LocalDate getNgayLap() {
+        return ngayLap;
+    }
+
+    public double getTongTien() {
+        return tongTien;
+    }
+
+    public double getGiaPhong() {
+        return giaPhong;
+    }
+
+    public long getSoNgay() {
+        return soNgay;
+    }
+
+    public void setDatPhong(
+            DatPhong datPhong
+    ) {
+
+        this.datPhong = datPhong;
+    }
+
+    public void setTongTien(
+            double tongTien
+    ) {
+
+        this.tongTien = tongTien;
+    }
+
+    // =========================
+    // HIỂN THỊ HÓA ĐƠN
+    // =========================
+    public void hienThiHoaDon() {
+
+        System.out.println(
+                "===== HÓA ĐƠN ====="
+        );
+
+        System.out.println(
+                "Mã hóa đơn: "
+                + maHoaDon
+        );
+
+        System.out.println(
+                "Tài khoản: "
+                + datPhong.getTenDangNhap()
+        );
+
+        System.out.println(
+                "Phòng: "
+                + datPhong.getMaPhong()
+        );
+
+        System.out.println(
+                "Ngày nhận: "
+                + datPhong.getNgayNhan()
+        );
+
+        System.out.println(
+                "Ngày trả: "
+                + datPhong.getNgayTra()
+        );
+
+        System.out.println(
+                "Số ngày thuê: "
+                + soNgay
+        );
+
+        System.out.println(
+                "Giá phòng / ngày: "
+                + String.format(
+                        "%,.0f",
+                        giaPhong
+                )
+                + " VND"
+        );
+
+        System.out.println(
+                "Ngày lập: "
+                + ngayLap
+        );
+
+        System.out.println(
+                "TỔNG TIỀN PHẢI TRẢ: "
+                + String.format(
+                        "%,.0f",
+                        tongTien
+                )
+                + " VND"
+        );
+    }
+}

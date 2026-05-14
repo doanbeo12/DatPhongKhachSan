@@ -67,7 +67,7 @@ public class LoginFrame extends JFrame {
      );
 
      JLabel lblHotel =
-             new JLabel("NHÓM 9");
+             new JLabel("NHÓM 7");
 
      lblHotel.setFont(
              new Font(

@@ -1,0 +1,616 @@
+package hotel;
+
+import javax.swing.*;
+import java.awt.*;
+
+public class ChiTietPhongFrame extends JFrame {
+
+    private DanhSachPhongFrame parent;
+
+    private Phong phong;
+
+    private TaiKhoan taiKhoan;
+
+    public ChiTietPhongFrame(
+
+            DanhSachPhongFrame parent,
+
+            TaiKhoan taiKhoan,
+
+            Phong phong
+    ) {
+
+        this.parent = parent;
+
+        this.taiKhoan = taiKhoan;
+
+        this.phong = phong;
+
+        setTitle("Chi tiết phòng");
+
+        setSize(520, 720);
+
+        setLocationRelativeTo(null);
+
+        setLayout(null);
+
+        getContentPane().setBackground(
+                new Color(15, 23, 42)
+        );
+
+        // =========================
+        // TITLE
+        // =========================
+        JLabel lblTitle =
+                new JLabel(
+                        "CHI TIẾT PHÒNG",
+                        SwingConstants.CENTER
+                );
+
+        lblTitle.setBounds(
+                70,
+                20,
+                360,
+                40
+        );
+
+        lblTitle.setFont(
+                new Font(
+                        "Segoe UI",
+                        Font.BOLD,
+                        28
+                )
+        );
+
+        lblTitle.setForeground(
+                Color.WHITE
+        );
+
+        add(lblTitle);
+
+        Font font =
+                new Font(
+                        "Segoe UI",
+                        Font.PLAIN,
+                        16
+                );
+
+        int y = 100;
+
+        addLabel(
+                "Mã phòng: "
+                        + phong.getMaPhong(),
+                y,
+                font
+        );
+
+        y += 50;
+
+        addLabel(
+                "Tên phòng: "
+                        + phong.getTenPhong(),
+                y,
+                font
+        );
+
+        y += 50;
+
+        addLabel(
+                "Loại phòng: "
+                        + phong.getLoaiPhong(),
+                y,
+                font
+        );
+
+        y += 50;
+
+        addLabel(
+                "Giá phòng: "
+                        + String.format(
+                                "%,.0f",
+                                phong.getGiaPhong()
+                        )
+                        + " VND / đêm",
+                y,
+                font
+        );
+
+        y += 50;
+
+        addLabel(
+                "Mô tả: "
+                        + phong.getMoTa(),
+                y,
+                font
+        );
+
+        // =========================
+        // NGÀY NHẬN
+        // =========================
+        JLabel lblNgayNhan =
+                new JLabel(
+                        "Ngày nhận:"
+                );
+
+        lblNgayNhan.setBounds(
+                40,
+                340,
+                120,
+                30
+        );
+
+        lblNgayNhan.setForeground(
+                Color.WHITE
+        );
+
+        lblNgayNhan.setFont(font);
+
+        add(lblNgayNhan);
+
+        JTextField txtNgayNhan =
+                new JTextField();
+
+        txtNgayNhan.setBounds(
+                180,
+                340,
+                220,
+                35
+        );
+
+        txtNgayNhan.setFont(font);
+
+        txtNgayNhan.setToolTipText(
+                "dd/MM/yyyy"
+        );
+
+        add(txtNgayNhan);
+
+        // =========================
+        // NGÀY TRẢ
+        // =========================
+        JLabel lblNgayTra =
+                new JLabel(
+                        "Ngày trả:"
+                );
+
+        lblNgayTra.setBounds(
+                40,
+                400,
+                120,
+                30
+        );
+
+        lblNgayTra.setForeground(
+                Color.WHITE
+        );
+
+        lblNgayTra.setFont(font);
+
+        add(lblNgayTra);
+
+        JTextField txtNgayTra =
+                new JTextField();
+
+        txtNgayTra.setBounds(
+                180,
+                400,
+                220,
+                35
+        );
+
+        txtNgayTra.setFont(font);
+
+        txtNgayTra.setToolTipText(
+                "dd/MM/yyyy"
+        );
+
+        add(txtNgayTra);
+
+        // =========================
+        // TỔNG TIỀN
+        // =========================
+        JLabel lblTongTien =
+                new JLabel(
+                        "Tổng tiền: 0 VND"
+                );
+
+        lblTongTien.setBounds(
+                40,
+                470,
+                400,
+                35
+        );
+
+        lblTongTien.setForeground(
+                new Color(255, 220, 120)
+        );
+
+        lblTongTien.setFont(
+                new Font(
+                        "Segoe UI",
+                        Font.BOLD,
+                        20
+                )
+        );
+
+        add(lblTongTien);
+
+        // =========================
+        // TÍNH TIỀN REALTIME
+        // =========================
+        Runnable tinhTongTien = () -> {
+
+            try {
+
+                java.time.format.DateTimeFormatter formatter =
+                        java.time.format.DateTimeFormatter.ofPattern(
+                                "d/M/yyyy"
+                        );
+
+                java.time.LocalDate ngayNhan =
+                        java.time.LocalDate.parse(
+                                txtNgayNhan.getText(),
+                                formatter
+                        );
+
+                java.time.LocalDate ngayTra =
+                        java.time.LocalDate.parse(
+                                txtNgayTra.getText(),
+                                formatter
+                        );
+
+                long soNgay =
+                        java.time.temporal.ChronoUnit.DAYS.between(
+                                ngayNhan,
+                                ngayTra
+                        );
+
+                if (soNgay <= 0) {
+
+                    lblTongTien.setText(
+                            "Tổng tiền: 0 VND"
+                    );
+
+                    return;
+                }
+
+                double tongTien =
+                        soNgay * phong.getGiaPhong();
+
+                lblTongTien.setText(
+
+                        "Tổng tiền: "
+
+                        + String.format(
+                                "%,.0f",
+                                tongTien
+                        )
+
+                        + " VND"
+                );
+
+            } catch (Exception ex) {
+
+                lblTongTien.setText(
+                        "Tổng tiền: 0 VND"
+                );
+            }
+        };
+
+        txtNgayNhan.addKeyListener(
+                new java.awt.event.KeyAdapter() {
+
+                    @Override
+                    public void keyReleased(
+                            java.awt.event.KeyEvent e
+                    ) {
+
+                        tinhTongTien.run();
+                    }
+                }
+        );
+
+        txtNgayTra.addKeyListener(
+                new java.awt.event.KeyAdapter() {
+
+                    @Override
+                    public void keyReleased(
+                            java.awt.event.KeyEvent e
+                    ) {
+
+                        tinhTongTien.run();
+                    }
+                }
+        );
+
+        // =========================
+        // BUTTON XÁC NHẬN
+        // =========================
+        JButton btnXacNhan =
+                new JButton(
+                        "Xác nhận thuê"
+                );
+
+        btnXacNhan.setBounds(
+                140,
+                560,
+                220,
+                50
+        );
+
+        btnXacNhan.setBackground(
+                new Color(34, 197, 94)
+        );
+
+        btnXacNhan.setForeground(
+                Color.WHITE
+        );
+
+        btnXacNhan.setFocusPainted(false);
+
+        btnXacNhan.setFont(
+                new Font(
+                        "Segoe UI",
+                        Font.BOLD,
+                        18
+                )
+        );
+
+        add(btnXacNhan);
+
+        // =========================
+        // EVENT
+        // =========================
+        btnXacNhan.addActionListener(e -> {
+
+            int confirm =
+                    JOptionPane.showConfirmDialog(
+
+                            this,
+
+                            "Xác nhận thuê phòng?",
+
+                            "Xác nhận",
+
+                            JOptionPane.YES_NO_OPTION
+                    );
+
+            if (
+                    confirm
+                            !=
+                    JOptionPane.YES_OPTION
+            ) {
+
+                return;
+            }
+
+            // =========================
+            // KIỂM TRA ĐÃ THUÊ
+            // =========================
+            if (
+                    phong.isTrangThai()
+            ) {
+
+                JOptionPane.showMessageDialog(
+
+                        this,
+
+                        "Phòng này đã được thuê"
+                );
+
+                return;
+            }
+
+            try {
+
+                java.time.format.DateTimeFormatter formatter =
+                        java.time.format.DateTimeFormatter.ofPattern(
+                                "d/M/yyyy"
+                        );
+
+                java.time.LocalDate ngayNhan =
+                        java.time.LocalDate.parse(
+                                txtNgayNhan.getText(),
+                                formatter
+                        );
+
+                java.time.LocalDate ngayTra =
+                        java.time.LocalDate.parse(
+                                txtNgayTra.getText(),
+                                formatter
+                        );
+
+                // =========================
+                // KIỂM TRA NGÀY
+                // =========================
+                if (
+                        ngayTra.isBefore(ngayNhan)
+                        ||
+                        ngayTra.isEqual(ngayNhan)
+                ) {
+
+                    JOptionPane.showMessageDialog(
+
+                            this,
+
+                            "Ngày trả phải sau ngày nhận"
+                    );
+
+                    return;
+                }
+
+                // =========================
+                // TẠO ĐẶT PHÒNG
+                // =========================
+                DatPhong dp =
+                        new DatPhong(
+
+                                0,
+
+                                taiKhoan.getTenDangNhap(),
+
+                                phong.getMaPhong(),
+
+                                java.sql.Date.valueOf(
+                                        ngayNhan
+                                ),
+
+                                java.sql.Date.valueOf(
+                                        ngayTra
+                                )
+                        );
+
+                // =========================
+                // INSERT DATABASE
+                // =========================
+                DatPhongDAO datPhongDAO =
+                        new DatPhongDAO();
+
+                boolean datPhongSuccess =
+                        datPhongDAO.datPhong(dp);
+
+                if (!datPhongSuccess) {
+
+                    JOptionPane.showMessageDialog(
+
+                            this,
+
+                            "Đặt phòng thất bại"
+                    );
+
+                    return;
+                }
+
+                // =========================
+                // UPDATE PHÒNG
+                // =========================
+                PhongDAO phongDAO =
+                        new PhongDAO();
+
+                phongDAO.capNhatTrangThaiPhong(
+
+                        phong.getMaPhong(),
+
+                        true
+                );
+
+                // =========================
+                // TÍNH TIỀN
+                // =========================
+                long soNgay =
+                        java.time.temporal.ChronoUnit.DAYS.between(
+                                ngayNhan,
+                                ngayTra
+                        );
+
+                double tongTien =
+                        soNgay * phong.getGiaPhong();
+
+                // =========================
+                // HÓA ĐƠN
+                // =========================
+                String hoaDon =
+
+                        "===== HÓA ĐƠN =====\n\n"
+
+                        + "Mã phòng: "
+                        + phong.getMaPhong()
+
+                        + "\nTên phòng: "
+                        + phong.getTenPhong()
+
+                        + "\nNgày nhận: "
+                        + ngayNhan
+
+                        + "\nNgày trả: "
+                        + ngayTra
+
+                        + "\nSố ngày thuê: "
+                        + soNgay
+
+                        + "\nGiá phòng: "
+                        + String.format(
+                                "%,.0f",
+                                phong.getGiaPhong()
+                        )
+                        + " VND"
+
+                        + "\n\nTỔNG TIỀN: "
+                        + String.format(
+                                "%,.0f",
+                                tongTien
+                        )
+                        + " VND";
+
+                JOptionPane.showMessageDialog(
+
+                        this,
+
+                        hoaDon,
+
+                        "Hóa đơn",
+
+                        JOptionPane.INFORMATION_MESSAGE
+                );
+
+                // =========================
+                // SUCCESS
+                // =========================
+                JOptionPane.showMessageDialog(
+
+                        this,
+
+                        "Thuê phòng thành công"
+                );
+
+                parent.loadPhong();
+
+                dispose();
+
+            } catch (Exception ex) {
+
+                JOptionPane.showMessageDialog(
+
+                        this,
+
+                        "Ngày phải có dạng dd/MM/yyyy",
+
+                        "Lỗi",
+
+                        JOptionPane.ERROR_MESSAGE
+                );
+            }
+        });
+    }
+
+    // =========================
+    // LABEL
+    // =========================
+    private void addLabel(
+
+            String text,
+
+            int y,
+
+            Font font
+    ) {
+
+        JLabel label =
+                new JLabel(text);
+
+        label.setBounds(
+                40,
+                y,
+                420,
+                30
+        );
+
+        label.setForeground(
+                Color.WHITE
+        );
+
+        label.setFont(font);
+
+        add(label);
+    }
+}

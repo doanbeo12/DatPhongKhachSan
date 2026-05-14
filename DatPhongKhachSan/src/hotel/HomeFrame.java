@@ -245,7 +245,7 @@ public class HomeFrame extends JFrame {
 
         JLabel lblSub =
                 new JLabel(
-                        "Luxury & Comfort",
+                        "Nhóm 7",
                         SwingConstants.CENTER
                 );
 
@@ -273,10 +273,34 @@ public class HomeFrame extends JFrame {
         // =========================
         // HELLO
         // =========================
+        ThongTinKhachHangDAO thongTinDAO =
+                new ThongTinKhachHangDAO();
+
+        String hoTen =
+                thongTinDAO.layHoTen(
+                        taiKhoan.getTenDangNhap()
+                );
+
+        String tenHienThi;
+
+        if (
+                hoTen != null
+                &&
+                !hoTen.trim().isEmpty()
+        ) {
+
+            tenHienThi = hoTen;
+
+        } else {
+
+            tenHienThi =
+                    taiKhoan.getTenDangNhap();
+        }
+
         JLabel lblHello =
                 new JLabel(
                         "Xin chào, "
-                        + taiKhoan.getTenDangNhap(),
+                        + tenHienThi,
                         SwingConstants.CENTER
                 );
 
@@ -386,11 +410,114 @@ public class HomeFrame extends JFrame {
                 )
         );
 
+        txtSearch.setForeground(Color.GRAY);
+
         txtSearch.setText(
                 "Tìm kiếm phòng, dịch vụ, thông tin..."
         );
 
+        // =========================
+        // PLACEHOLDER
+        // =========================
+        txtSearch.addFocusListener(
+                new java.awt.event.FocusAdapter() {
+
+                    @Override
+                    public void focusGained(
+                            java.awt.event.FocusEvent e
+                    ) {
+
+                        if (
+                                txtSearch.getText().equals(
+                                        "Tìm kiếm phòng, dịch vụ, thông tin..."
+                                )
+                        ) {
+
+                            txtSearch.setText("");
+
+                            txtSearch.setForeground(
+                                    Color.BLACK
+                            );
+                        }
+                    }
+
+                    @Override
+                    public void focusLost(
+                            java.awt.event.FocusEvent e
+                    ) {
+
+                        if (
+                                txtSearch.getText()
+                                        .trim()
+                                        .isEmpty()
+                        ) {
+
+                            txtSearch.setText(
+                                    "Tìm kiếm phòng, dịch vụ, thông tin..."
+                            );
+
+                            txtSearch.setForeground(
+                                    Color.GRAY
+                            );
+                        }
+                    }
+                }
+        );
+
         searchPanel.add(txtSearch);
+        txtSearch.addActionListener(e -> {
+
+            String keyword =
+                    txtSearch.getText()
+                    .trim()
+                    .toLowerCase();
+
+            if (
+                    keyword.contains("phòng")
+                    ||
+                    keyword.contains("room")
+            ) {
+
+                new PhongHienTai(
+                        taiKhoan
+                ).setVisible(true);
+
+            } else if (
+                    keyword.contains("dịch vụ")
+                    ||
+                    keyword.contains("service")
+            ) {
+
+            	new DichVuFrame(taiKhoan).setVisible(true);
+
+            } else if (
+                    keyword.contains("thông tin")
+                    ||
+                    keyword.contains("info")
+            ) {
+
+                new ThongTinKhachHangFrame(
+                        taiKhoan
+                ).setVisible(true);
+
+            } else if (
+                    keyword.contains("hoá đơn")
+                    ||
+                    keyword.contains("tra cứu")
+            ) {
+
+            	new LichSuThuePhongFrame(taiKhoan).setVisible(true);
+
+            } else {
+
+                JOptionPane.showMessageDialog(
+
+                        this,
+
+                        "Không tìm thấy kết quả"
+                );
+            }
+        });
 
         JButton btnFilter =
                 new JButton("⚙");
@@ -507,9 +634,23 @@ public class HomeFrame extends JFrame {
                 createCard(
                         "📄",
                         "Tra cứu",
-                        "Xem hóa đơn"
+                        "Xem lịch sử thuê phòng"
                 );
 
+        cardSearch.addMouseListener(
+                new java.awt.event.MouseAdapter() {
+
+                    @Override
+                    public void mouseClicked(
+                            java.awt.event.MouseEvent e
+                    ) {
+
+                        new LichSuThuePhongFrame(
+                                taiKhoan
+                        ).setVisible(true);
+                    }
+                }
+        );
         functionPanel.add(cardBooking);
 
         functionPanel.add(cardRoom);
@@ -558,12 +699,16 @@ public class HomeFrame extends JFrame {
 
         btnDichVu.addActionListener(e -> {
 
-            JOptionPane.showMessageDialog(
+            new DichVuFrame(taiKhoan)
+            .setVisible(true);
 
-                    this,
+            dispose();
+        });
+        btnInfo.addActionListener(e -> {
 
-                    "Chức năng dịch vụ khác đang phát triển"
-            );
+            new ThongTinKhachHangFrame(
+                    taiKhoan
+            ).setVisible(true);
         });
 
         navBar.add(btnHome);
